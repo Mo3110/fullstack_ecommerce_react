@@ -14,13 +14,24 @@ export const webhookHandler = async (request: Request, response: Response) => {
             sig,
             process.env.STRIPE_WEBHOOK_SECRET
         )
-        if (event.type === "payment_intent.created") {
+        if (event.type === "charge.succeeded") {
             const charge = event.data.object as stripe.Charge
             const order = await Order.findOne({
                 paymentIntentId: charge.payment_intent,
             })
             if (order) {
                 order.paymentStatus = "paid"
+                order.paymentDetails = charge
+                await order.save()
+            }
+        }
+        else if (event.type === "charge.failed") {
+            const charge = event.data.object as stripe.Charge
+            const order = await Order.findOne({
+                paymentIntentId: charge.payment_intent,
+            })
+            if (order) {
+                order.paymentStatus = "failed"
                 order.paymentDetails = charge
                 await order.save()
             }
