@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react"
+
+import { useEffect, useState } from "react"
 import {
   PaymentElement,
   LinkAuthenticationElement,
@@ -14,11 +15,11 @@ export default function CheckoutForm() {
   const stripe = useStripe()
   const elements = useElements()
 
-  const [email, setEmail] = useState("")
+  const [, setEmail] = useState("")
   const [message, setMessage] = useState<string | null | undefined>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const { cart, emptyCart } = useGlobalStore()
+  const { emptyCart } = useGlobalStore()
 
   useEffect(() => {
     if (!stripe) {

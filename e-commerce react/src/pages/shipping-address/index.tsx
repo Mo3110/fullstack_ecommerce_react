@@ -29,7 +29,7 @@ type OrderDetailsType = {
 
 const ShippingAddress = () => {
 
-    const {register, setValue, handleSubmit, getValues, formState:{errors} } = useForm<FormData>()
+    const {register, handleSubmit, getValues, formState:{errors} } = useForm<FormData>()
 
     const { cart, updateClientSecret } = useGlobalStore()
 
@@ -37,7 +37,7 @@ const ShippingAddress = () => {
 
     const cartTotal = getCartTotal(cart)
 
-    const onSubmit = handleSubmit(async(data) => {
+    const onSubmit = handleSubmit(async() => {
         try {
             const {name,email,city,address} = getValues()
             const orderDetails: OrderDetailsType = {
